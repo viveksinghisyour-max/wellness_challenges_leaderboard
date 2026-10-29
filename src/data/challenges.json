@@ -1,0 +1,122 @@
+[
+  {
+    "id": "daily-steps",
+    "name": "Daily Step Challenge",
+    "category": "Steps",
+    "description": "Hit at least 8,000 steps every day to build a steady cardiovascular foundation.",
+    "target": 8000,
+    "unit": "steps",
+    "duration": "Daily",
+    "difficulty": "Easy",
+    "pointsReward": 150,
+    "icon": "Footprints"
+  },
+  {
+    "id": "ten-k-steps",
+    "name": "10,000 Steps a Day",
+    "category": "Steps",
+    "description": "The gold standard of daily activity. Walk or run your way to 10k daily steps.",
+    "target": 10000,
+    "unit": "steps",
+    "duration": "Daily",
+    "difficulty": "Medium",
+    "pointsReward": 250,
+    "icon": "Trophy"
+  },
+  {
+    "id": "weekly-walking",
+    "name": "Weekly Walking Challenge",
+    "category": "Steps",
+    "description": "Accumulate 60,000 steps over 7 days through active commuting and weekend strolls.",
+    "target": 60000,
+    "unit": "steps",
+    "duration": "Weekly",
+    "difficulty": "Medium",
+    "pointsReward": 350,
+    "icon": "MapPin"
+  },
+  {
+    "id": "active-minutes",
+    "name": "Active Minutes Challenge",
+    "category": "Activity",
+    "description": "Elevate your heart rate for at least 45 minutes every day with any workout.",
+    "target": 45,
+    "unit": "minutes",
+    "duration": "Daily",
+    "difficulty": "Medium",
+    "pointsReward": 200,
+    "icon": "Flame"
+  },
+  {
+    "id": "hydration-habit",
+    "name": "Hydration Habit Challenge",
+    "category": "Hydration",
+    "description": "Stay energized and focused by drinking at least 8 glasses of water daily.",
+    "target": 8,
+    "unit": "glasses",
+    "duration": "Daily",
+    "difficulty": "Easy",
+    "pointsReward": 100,
+    "icon": "Droplet"
+  },
+  {
+    "id": "sleep-routine",
+    "name": "Consistent Sleep Routine",
+    "category": "Sleep",
+    "description": "Give your body restorative sleep by logging 8 hours of quality rest each night.",
+    "target": 8,
+    "unit": "hours",
+    "duration": "Daily",
+    "difficulty": "Hard",
+    "pointsReward": 200,
+    "icon": "Moon"
+  },
+  {
+    "id": "weekend-movement",
+    "name": "Weekend Movement Challenge",
+    "category": "Activity",
+    "description": "Fight sedentary weekend habits with 120 total active minutes between Saturday and Sunday.",
+    "target": 120,
+    "unit": "minutes",
+    "duration": "Weekend",
+    "difficulty": "Medium",
+    "pointsReward": 300,
+    "icon": "Zap"
+  },
+  {
+    "id": "wellness-streak",
+    "name": "Seven-Day Wellness Streak",
+    "category": "Streak",
+    "description": "Log your wellness activity every single day for 7 consecutive days without breaking your streak.",
+    "target": 7,
+    "unit": "days",
+    "duration": "Weekly",
+    "difficulty": "Hard",
+    "pointsReward": 400,
+    "icon": "Sparkles"
+  },
+  {
+    "id": "core-power",
+    "name": "Core & Cardio Blast",
+    "category": "Activity",
+    "description": "Focus on high-intensity movement or core strength for at least 30 minutes daily.",
+    "target": 30,
+    "unit": "minutes",
+    "duration": "Daily",
+    "difficulty": "Easy",
+    "pointsReward": 180,
+    "icon": "Activity"
+  },
+  {
+    "id": "mindful-hydration",
+    "name": "Hydration Marathon",
+    "category": "Hydration",
+    "description": "Peak hydration for endurance sports! Log 10 full glasses of pure water.",
+    "target": 10,
+    "unit": "glasses",
+    "duration": "Daily",
+    "difficulty": "Medium",
+    "pointsReward": 150,
+    "icon": "Droplets"
+  }
+]
