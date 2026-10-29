@@ -9,7 +9,8 @@ import {
   Flame as BurnIcon,
   Award,
   ArrowRight,
-  PlusCircle
+  PlusCircle,
+  UserCheck
 } from 'lucide-react';
 import StatCard from '../components/dashboard/StatCard';
 import ActivityChart from '../components/dashboard/ActivityChart';
@@ -25,7 +26,8 @@ export default function Dashboard({
   recentActivities = [],
   topLeaderboard = [],
   onNavigate,
-  onOpenQuickLog
+  onOpenQuickLog,
+  onOpenProfile
 }) {
   const { today, burnedCalories, last7Days } = summaryStats;
 
@@ -39,19 +41,33 @@ export default function Dashboard({
     item => item.progress.isCompleted
   ).length;
 
+  const targetSteps = userProfile?.stepGoal || 10000;
+  const targetActive = userProfile?.activeMinutesGoal || 45;
+  const targetWater = userProfile?.waterGoal || 8;
+  const targetSleep = userProfile?.sleepGoal || 8.0;
+
   return (
     <div className="space-y-8">
       {/* Hero Welcome Banner */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-emerald-900/10">
         <div className="relative z-10 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-md text-emerald-100 mb-3 border border-white/10">
-            🔥 {userProfile?.streakDays || 0}-Day Wellness Streak Active
-          </span>
+          <div className="flex items-center gap-2 flex-wrap mb-3">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-md text-emerald-100 border border-white/10">
+              🔥 {userProfile?.streakDays || 0}-Day Wellness Streak Active
+            </span>
+            {userProfile?.city && (
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-800/40 text-emerald-200 border border-emerald-500/20">
+                📍 {userProfile.city}
+              </span>
+            )}
+          </div>
+
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white mb-2">
-            {greeting}, {userProfile?.name || 'Alex'}! 🌟
+            {greeting}, {userProfile?.name || 'Friend'}! 🌟
           </h1>
+
           <p className="text-sm sm:text-base text-emerald-100/90 leading-relaxed">
-            Track your habits, crush your enrolled goals, and watch your progress update in real time.
+            {userProfile?.bio ? `"${userProfile.bio}"` : 'Track your habits, crush your enrolled goals, and watch your progress update in real time.'}
           </p>
 
           <div className="flex items-center gap-3 mt-6 flex-wrap">
@@ -63,6 +79,15 @@ export default function Dashboard({
               className="bg-white text-emerald-800 hover:bg-emerald-50 border-transparent font-bold shadow-sm"
             >
               Log Today's Activity
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              icon={UserCheck}
+              onClick={onOpenProfile}
+              className="border-white/30 text-white hover:bg-white/10"
+            >
+              Edit Profile & Goals
             </Button>
             <Button
               variant="outline"
@@ -86,9 +111,13 @@ export default function Dashboard({
           <h2 id="rings-heading" className="text-lg font-bold text-slate-900">
             Today's Progress & Rings
           </h2>
-          <span className="text-xs font-semibold text-slate-400">
-            Target Goals
-          </span>
+          <button
+            type="button"
+            onClick={onOpenProfile}
+            className="text-xs font-semibold text-emerald-700 hover:underline"
+          >
+            Adjust Target Goals &rarr;
+          </button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -102,12 +131,12 @@ export default function Dashboard({
               size={115}
               strokeWidth={9}
               value={today.steps}
-              goal={10000}
+              goal={targetSteps}
               unit="steps"
               label="Daily Steps"
               color="#059669"
             />
-            <span className="text-xs text-slate-500 mt-3 font-medium">Target: 10,000 steps</span>
+            <span className="text-xs text-slate-500 mt-3 font-medium">Target: {targetSteps.toLocaleString()} steps</span>
           </div>
 
           {/* 2. Active Cardio */}
@@ -120,12 +149,12 @@ export default function Dashboard({
               size={115}
               strokeWidth={9}
               value={today.activeMinutes}
-              goal={45}
+              goal={targetActive}
               unit="mins"
               label="Active Minutes"
               color="#0d9488"
             />
-            <span className="text-xs text-slate-500 mt-3 font-medium">Target: 45 minutes</span>
+            <span className="text-xs text-slate-500 mt-3 font-medium">Target: {targetActive} minutes</span>
           </div>
 
           {/* 3. Hydration */}
@@ -138,12 +167,12 @@ export default function Dashboard({
               size={115}
               strokeWidth={9}
               value={today.water}
-              goal={8}
+              goal={targetWater}
               unit="glasses"
               label="Hydration"
               color="#0284c7"
             />
-            <span className="text-xs text-slate-500 mt-3 font-medium">Target: 8 glasses (~2L)</span>
+            <span className="text-xs text-slate-500 mt-3 font-medium">Target: {targetWater} glasses</span>
           </div>
 
           {/* 4. Sleep */}
@@ -156,12 +185,12 @@ export default function Dashboard({
               size={115}
               strokeWidth={9}
               value={today.sleep}
-              goal={8.0}
+              goal={targetSleep}
               unit="hrs"
               label="Sleep Rest"
               color="#7c3aed"
             />
-            <span className="text-xs text-slate-500 mt-3 font-medium">Target: 8.0 hours</span>
+            <span className="text-xs text-slate-500 mt-3 font-medium">Target: {targetSleep} hours</span>
           </div>
         </div>
       </section>
@@ -174,7 +203,7 @@ export default function Dashboard({
             title="Today's Steps"
             value={today.steps.toLocaleString()}
             unit="steps"
-            subtitle="Goal: 10,000"
+            subtitle={`Target: ${targetSteps.toLocaleString()}`}
             color="text-emerald-600 bg-emerald-50"
           />
           <StatCard
@@ -182,7 +211,7 @@ export default function Dashboard({
             title="Active Cardio"
             value={today.activeMinutes}
             unit="mins"
-            subtitle="Goal: 45m"
+            subtitle={`Target: ${targetActive}m`}
             color="text-teal-600 bg-teal-50"
           />
           <StatCard

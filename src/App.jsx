@@ -7,6 +7,7 @@ import Leaderboard from './pages/Leaderboard';
 import NotFound from './pages/NotFound';
 import Toast from './components/common/Toast';
 import Button from './components/common/Button';
+import ProfileModal from './components/profile/ProfileModal';
 import challengesCatalog from './data/challenges.json';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { STORAGE_KEYS, clearAllWellnessData } from './utils/storage';
@@ -24,17 +25,25 @@ export default function App() {
   const [activities, setActivities] = useLocalStorage(STORAGE_KEYS.ACTIVITIES, []);
   const [enrollments, setEnrollments] = useLocalStorage(STORAGE_KEYS.ENROLLMENTS, []);
   const [userProfile, setUserProfile] = useLocalStorage(STORAGE_KEYS.PROFILE, {
-    id: 'user_alex_01',
+    id: 'user_visitor_01',
     name: 'Alex Rivera',
     avatar: 'AR',
-    streakDays: 0
+    city: 'Austin, TX',
+    bio: 'Wellness enthusiast & marathon aspirant',
+    avatarColor: 'emerald',
+    streakDays: 0,
+    stepGoal: 10000,
+    activeMinutesGoal: 45,
+    waterGoal: 8,
+    sleepGoal: 8.0
   });
   const [participants, setParticipants] = useLocalStorage(STORAGE_KEYS.PARTICIPANTS, []);
 
-  // Quick Log Modal & Reset Dialog state
+  // Quick Log Modal, Profile Modal & Reset Dialog state
   const [quickLogOpen, setQuickLogOpen] = useState(false);
   const [quickLogType, setQuickLogType] = useState('steps');
   const [quickLogVal, setQuickLogVal] = useState('');
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
 
   // Toast notification dispatcher
@@ -81,13 +90,14 @@ export default function App() {
 
   // 5. Current User Leaderboard Entry
   const currentUserEntry = useMemo(() => {
-    // Generate 7-day metric snapshot for modal inspection
     const last7Days = summaryStats.last7Days || [];
     return {
-      id: userProfile.id || 'user_alex_01',
-      name: userProfile.name || 'Alex Rivera',
-      avatar: userProfile.avatar || 'AR',
-      city: 'Austin, TX',
+      id: userProfile.id || 'user_visitor_01',
+      name: userProfile.name || 'Participant',
+      avatar: userProfile.avatar || 'P',
+      city: userProfile.city || 'Community Member',
+      bio: userProfile.bio || '',
+      avatarColor: userProfile.avatarColor || 'emerald',
       streakDays: currentUserScoreObj.streakDays,
       completedChallenges: currentUserScoreObj.completedChallengesCount,
       score: currentUserScoreObj.totalScore,
@@ -104,6 +114,12 @@ export default function App() {
   }, [currentUserEntry, participants]);
 
   // --- ACTIONS ---
+
+  // Profile Save
+  const handleSaveProfile = (updatedProfile) => {
+    setUserProfile(updatedProfile);
+    showToast(`Profile updated! Welcome to the challenges, ${updatedProfile.name}! 🎉`, 'success');
+  };
 
   // Challenge Join & Leave with duplicate prevention
   const handleJoinChallenge = (challengeId, challengeName) => {
@@ -288,10 +304,17 @@ export default function App() {
     setActivities([]);
     setEnrollments([]);
     setUserProfile({
-      id: 'user_alex_01',
-      name: 'Alex Rivera',
-      avatar: 'AR',
-      streakDays: 0
+      id: 'user_visitor_' + Date.now(),
+      name: 'Participant',
+      avatar: 'VP',
+      city: 'Community Member',
+      bio: 'Ready to crush daily wellness habits',
+      avatarColor: 'emerald',
+      streakDays: 0,
+      stepGoal: 10000,
+      activeMinutesGoal: 45,
+      waterGoal: 8,
+      sleepGoal: 8.0
     });
     setParticipants([]);
     setResetModalOpen(false);
@@ -307,6 +330,7 @@ export default function App() {
         onOpenQuickLog={() => setQuickLogOpen(true)}
         onResetData={() => setResetModalOpen(true)}
         userProfile={userProfile}
+        onOpenProfile={() => setProfileModalOpen(true)}
       />
 
       {/* Main Content View */}
@@ -320,6 +344,7 @@ export default function App() {
             topLeaderboard={rankedLeaderboard}
             onNavigate={setActiveTab}
             onOpenQuickLog={() => setQuickLogOpen(true)}
+            onOpenProfile={() => setProfileModalOpen(true)}
           />
         )}
 
@@ -356,6 +381,14 @@ export default function App() {
           <NotFound onGoHome={() => setActiveTab('dashboard')} />
         )}
       </main>
+
+      {/* Profile Modal */}
+      <ProfileModal
+        isOpen={profileModalOpen}
+        onClose={() => setProfileModalOpen(false)}
+        userProfile={userProfile}
+        onSaveProfile={handleSaveProfile}
+      />
 
       {/* Quick Log Modal */}
       {quickLogOpen && (

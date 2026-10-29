@@ -7,7 +7,8 @@ import {
   PlusCircle,
   Menu,
   X,
-  RotateCcw
+  RotateCcw,
+  UserCheck
 } from 'lucide-react';
 import Button from '../common/Button';
 
@@ -16,7 +17,8 @@ export default function Navbar({
   onTabChange,
   onOpenQuickLog,
   onResetData,
-  userProfile
+  userProfile,
+  onOpenProfile
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -31,6 +33,16 @@ export default function Navbar({
     onTabChange(id);
     setMobileMenuOpen(false);
   }
+
+  const colorGradients = {
+    emerald: 'from-emerald-600 to-teal-500',
+    teal: 'from-teal-600 to-cyan-500',
+    indigo: 'from-indigo-600 to-purple-500',
+    rose: 'from-rose-500 to-pink-500',
+    amber: 'from-amber-500 to-orange-500'
+  };
+
+  const gradientClass = colorGradients[userProfile?.avatarColor] || colorGradients.emerald;
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
@@ -96,16 +108,25 @@ export default function Navbar({
               Log Activity
             </Button>
 
-            {/* User Profile Badge */}
-            <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-slate-200">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                {userProfile?.avatar || 'AR'}
+            {/* Clickable User Profile Badge */}
+            <button
+              type="button"
+              onClick={onOpenProfile}
+              className="flex items-center gap-2 pl-2 pr-2.5 py-1 rounded-full border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 transition-all text-left focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              title="Click to edit participant profile"
+            >
+              <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${gradientClass} text-white font-bold text-xs flex items-center justify-center shadow-xs flex-shrink-0`}>
+                {userProfile?.avatar || 'VP'}
               </div>
-              <div className="text-left text-xs leading-tight">
-                <span className="font-semibold text-slate-800 block">{userProfile?.name || 'Alex Rivera'}</span>
-                <span className="text-slate-500 text-[11px]">Pro Athlete</span>
+              <div className="hidden lg:block leading-tight text-xs pr-1">
+                <span className="font-bold text-slate-800 block truncate max-w-[120px]">
+                  {userProfile?.name || 'Create Profile'}
+                </span>
+                <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                  <UserCheck className="w-3 h-3" /> Profile
+                </span>
               </div>
-            </div>
+            </button>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -143,6 +164,18 @@ export default function Navbar({
             );
           })}
           <div className="pt-2 border-t border-slate-100 flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              icon={UserCheck}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenProfile();
+              }}
+              className="w-full justify-center"
+            >
+              My Profile Settings
+            </Button>
             <Button
               variant="outline"
               size="sm"

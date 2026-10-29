@@ -2,9 +2,25 @@
 
 A modern health-tech wellness platform built with **React 19, Vite, Tailwind CSS, Recharts, Framer Motion, and Lucide React**.
 
-Designed with an emerald green and teal aesthetic, fluid typography, animated circular progress rings, 7-day trend charts, challenge habit tracking, transparent scoring, and rule-based heuristic anti-cheat anomaly detection.
+Designed with an emerald green and teal aesthetic, fluid typography, animated circular progress rings, 7-day trend charts, challenge habit tracking, transparent scoring, rule-based heuristic anti-cheat anomaly detection, and **interactive visitor profile creation**.
 
-> **Clean State (No Preloaded Sample Data)**: The application starts in a clean state with zero preloaded activity logs. You can join challenges, log custom activities, and test calculations and anomaly rules directly.
+> **Clean State (No Preloaded Sample Data)**: The application starts in a clean state with zero preloaded activity logs. You can create your own participant profile, join challenges, log custom activities, and test calculations and anomaly rules directly.
+
+---
+
+## 👤 New Feature: Participant Profile Creation
+
+Visitors can now create, personalize, and customize their own wellness profile:
+- **Participant Name**: Enter your name to appear dynamically across the dashboard greeting and community leaderboard.
+- **City / Region**: Set your location (e.g. *Austin, TX*, *London, UK*).
+- **Personal Bio & Mantra**: Set your fitness goal or personal wellness motivation.
+- **Badge Theme Selector**: Choose between vibrant avatar gradients (*Emerald*, *Teal*, *Indigo*, *Rose*, *Amber*) with auto-generated initials.
+- **Customizable Daily Targets**:
+  - Daily Steps Target (default: 10,000)
+  - Active Cardio Target (default: 45 minutes)
+  - Hydration Target (default: 8 glasses)
+  - Sleep Rest Target (default: 8.0 hours)
+- **Real-Time Integration**: Your customized targets immediately calibrate the dashboard circular progress rings, KPI baseline markers, and leaderboard entry.
 
 ---
 
@@ -76,8 +92,10 @@ wellness_challenges_leaderboard/
     │   └── NotFound.jsx          # Route fallback
     └── components/
         ├── layout/
-        │   ├── Navbar.jsx        # Responsive navigation with mobile menu
+        │   ├── Navbar.jsx        # Responsive navigation with profile trigger
         │   └── PageHeader.jsx    # Consistent title, subtitle & action bar
+        ├── profile/
+        │   └── ProfileModal.jsx  # Visitor profile creation, bio & target customization
         ├── dashboard/
         │   ├── StatCard.jsx      # Metric KPI cards
         │   ├── ActivityChart.jsx # Interactive 7-day Recharts bar chart
@@ -136,24 +154,14 @@ Implemented in `src/utils/anomalyDetection.js`, the rule-based engine flags stat
 | **Time Conflict** | Active Hours + Sleep Hours $> 24$h | `Unusual Activity` (Medium) | Day budget exceeds 24 hours. |
 | **Overnight Spike** | $> 40,000$ steps day-over-day jump | `Unusual Activity` (Low) | Sudden uncharacteristic spike. |
 
-> **Educational Notice**: Anomaly flags represent automated algorithmic checks for review and do not constitute absolute proof of misconduct. In a client-side prototype, `localStorage` can be inspected by users.
-
 ---
 
 ## 🧪 Self-Testing Guide
 
-Because you requested clean data to test everything yourself:
-1. **Join Challenges**: Go to **Challenges**, filter by category or difficulty, and click **Join Challenge**.
-2. **Log Activities**: Go to **My Progress** or click **Log Activity** in the header. Enter:
-   - Steps: e.g. `8,500`
-   - Active Cardio: e.g. `45` minutes
-   - Water: e.g. `8` glasses
-   - Sleep: e.g. `7.5` hours
-3. **Verify Dynamic Updates**: Notice how:
-   - The 4 circular progress rings on the Dashboard animate to reflect your progress.
-   - The 7-day Recharts bar chart updates with your new entries.
-   - Your enrolled challenges update with live percentages.
-   - Your score recalculates dynamically.
-4. **Test Real-Time Anomaly Warning**: In the activity form, enter an extreme number like `62,000` steps. Notice the warning banner appear immediately before submission.
-5. **Test Leaderboard**: On the Leaderboard page, you can optionally click **"+ Seed 20 Demo Competitors"** at any time to test multi-participant rankings, tie-breakers, and podiums.
-6. **Reset Anytime**: Click **Reset** in the top navigation to clear local storage and start fresh.
+1. **Set Up Your Profile**: Click the Profile Badge in the top right of the navigation or click **Edit Profile & Goals** on the Dashboard hero. Enter your name, city, bio, and daily targets.
+2. **Join Challenges**: Go to **Challenges**, filter by category or difficulty, and click **Join Challenge**.
+3. **Log Activities**: Go to **My Progress** or click **Log Activity** in the header. Enter steps, active cardio, water, or sleep.
+4. **Verify Dynamic Updates**: The 4 circular progress rings, 7-day trend chart, enrolled challenge bars, and your leaderboard row update with your custom name and metrics.
+5. **Test Real-Time Anomaly Warning**: In the activity form, enter an extreme number like `62,000` steps to verify the statistical warning banner.
+6. **Test Leaderboard**: On the Leaderboard page, click **"+ Seed 20 Demo Competitors"** to test multi-participant rankings and podiums.
+7. **Reset Anytime**: Click **Reset** in the top navigation to clear local storage back to a clean slate.
